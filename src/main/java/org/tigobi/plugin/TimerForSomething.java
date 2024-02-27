@@ -73,6 +73,7 @@ public class TimerForSomething extends JavaPlugin {
     }
 
     private void updateTimer(Player player) {
+        giveInterval--;
         double progress = (double) giveInterval / (double) amount;
         bossBar.setProgress(progress);
 
@@ -86,7 +87,5 @@ public class TimerForSomething extends JavaPlugin {
             player.getInventory().addItem(item);
             giveInterval = this.giveInterval; // Reset giveInterval
         }
-
-        giveInterval--;
     }
 }
