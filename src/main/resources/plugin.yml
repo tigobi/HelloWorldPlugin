@@ -7,6 +7,12 @@ commands:
   daymne:
     description: give item
     usage: /<command>
+  timerGive:
+    description: timer for giving something
+    usage: /<command>
+  timerGiveStop:
+    description: for stop the timer for giving something
+    usage: /<command>
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20
