@@ -15,7 +15,9 @@ public class TimerForSomething extends JavaPlugin {
     private int taskId;
     private int amount;
     private int giveInterval;
+    private Player player;
     private String itemName;
+    private ItemStack item;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -25,7 +27,7 @@ public class TimerForSomething extends JavaPlugin {
                 return true;
             }
 
-            Player player = (Player) sender;
+            player = (Player) sender;
 
             if (args.length < 3) {
                 player.sendMessage("Использование: /timerGive <item_name> <amount> <timer in seconds>");
@@ -45,6 +47,9 @@ public class TimerForSomething extends JavaPlugin {
                 player.sendMessage("Интервал времени должен быть положительным числом.");
                 return true;
             }
+            ItemStack item = new ItemStack(Material.matchMaterial(itemName), amount);
+            player.getInventory().addItem(item);
+            onEnable();
 
             player.sendMessage("Вы будете получать " + amount + " " + itemName + " каждые " + giveInterval + " секунд.");
 
@@ -57,6 +62,7 @@ public class TimerForSomething extends JavaPlugin {
                     updateTimer(player);
                 }, 0L, 20L); // Первый аргумент - задержка (в тиках), второй - период (в тиках)
             }
+
 
         } else if (command.getName().equalsIgnoreCase("timerGiveStop")) {
             if (bossBar != null) {
@@ -72,20 +78,49 @@ public class TimerForSomething extends JavaPlugin {
         return true;
     }
 
-    private void updateTimer(Player player) {
-        giveInterval--;
-        double progress = (double) giveInterval / (double) amount;
-        bossBar.setProgress(progress);
+    @Override
+    public void onEnable() {
+        bossBar = getServer().createBossBar("Timer", BarColor.RED, BarStyle.SOLID);
+        bossBar.setVisible(true);
 
-        int minutes = giveInterval / 60;
-        int seconds = giveInterval % 60;
+        taskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            updateTimer();
+        }, 0L, 20L); // Первый аргумент - задержка (в тиках), второй - период (в тиках)
 
-        bossBar.setTitle("До выдачи: " + String.format("%02d:%02d", minutes, seconds));
-
-        if (giveInterval <= 0) {
-            ItemStack item = new ItemStack(Material.matchMaterial(itemName), amount);
-            player.getInventory().addItem(item);
-            giveInterval = this.giveInterval; // Reset giveInterval
+        // Добавляем все онлайн игроки к нашей полосе состояния
+        for (Player player : getServer().getOnlinePlayers()) {
+            bossBar.addPlayer(player);
         }
     }
+
+    @Override
+    public void onDisable() {
+        bossBar.removeAll();
+        getServer().getScheduler().cancelTask(taskId);
+    }
+
+    private void updateTimer() {
+        if (giveInterval <= 0) {
+            // Как только время заканчивается, удаляем полосу состояния и отменяем задачу планировщика
+            bossBar.removeAll();
+            getServer().getScheduler().cancelTask(taskId);
+            return;
+            ItemStack item = new ItemStack(Material.matchMaterial(itemName), amount);
+            player.getInventory().addItem(item);
+            giveInterval = this.giveInterval;
+        }
+
+        double progress = (double) giveInterval / 600; // Прогресс в долях от максимального времени (600 тиков)
+        bossBar.setProgress(progress);
+
+        // Форматируем оставшееся время в минуты и секунды
+        int minutes = giveInterval / 1200;
+        int seconds = (giveInterval % 1200) / 20;
+
+        bossBar.setTitle("Timer: " + String.format("%02d:%02d", minutes, seconds));
+
+        // Уменьшаем оставшееся время
+        giveInterval--;
+    }
+
 }
