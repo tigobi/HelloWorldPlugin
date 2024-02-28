@@ -1,17 +1,8 @@
 name: HelloWorldPlugin # the plugins name as it should appear in the plugin list /pl
-version: 0.3 # the plugin's version
+version: 0.31 # the plugin's version
 commands:
-  tikhon:
-    description: Print yes, i am
-    usage: /<command>
-  daymne:
-    description: give item
-    usage: /<command>
   timerGive:
     description: timer for giving something
-    usage: /<command>
-  timerGiveStop:
-    description: for stop the timer for giving something
     usage: /<command>
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
