@@ -1,5 +1,5 @@
 name: HelloWorldPlugin # the plugins name as it should appear in the plugin list /pl
-version: 0.b.1 # the plugin's version
+version: 0.4.0 # the plugin's version
 
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
