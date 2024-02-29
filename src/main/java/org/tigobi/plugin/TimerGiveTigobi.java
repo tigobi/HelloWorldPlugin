@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class timerGiveTigobi extends HelloWorldPlugin {
+public class TimerGiveTigobi extends HelloWorldPlugin {
 
     private int amount;
     private int timerIn;
