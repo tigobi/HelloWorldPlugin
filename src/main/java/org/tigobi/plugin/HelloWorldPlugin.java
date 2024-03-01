@@ -18,6 +18,7 @@ public class HelloWorldPlugin extends JavaPlugin {
         };
         BukkitTask myTask = myRunnable.runTaskTimer(this, 0, 100);
     }
+
     public void onDisable() {
         myTask.cancel();
         getLogger().info("Plugin disabled");
