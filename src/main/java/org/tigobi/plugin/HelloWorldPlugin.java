@@ -17,7 +17,7 @@ public class HelloWorldPlugin extends JavaPlugin {
                 Bukkit.broadcastMessage("Timer is working");
             }
         };
-             myTask =  myRunnable.runTaskTimer(this, 0, 100);
+         myTask = myRunnable.runTaskTimer(this, 0, 100);
     }
     @Override
     public void onDisable() {
