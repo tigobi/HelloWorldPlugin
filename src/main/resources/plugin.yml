@@ -1,9 +1,6 @@
 name: HelloWorldPlugin # the plugins name as it should appear in the plugin list /pl
-version: 0.31 # the plugin's version
-commands:
-  timerGive:
-    description: timer for giving something
-    usage: /<command>
+version: 0.6.0 # the plugin's version
+
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20
