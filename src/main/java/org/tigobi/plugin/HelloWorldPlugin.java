@@ -6,23 +6,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class HelloWorldPlugin extends JavaPlugin {
-    private BukkitTask task;
+    public BukkitTask timerTask;
 
     @Override
     public void onEnable() {
         getLogger().info("Plugin enabled");
+        MyExecutor myExecutor = new MyExecutor(this);
+        this.getCommand("messageStart").setExecutor(myExecutor);
         var runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.broadcastMessage("Timer is working");
             }
         };
-        task = runnable.runTaskTimer(this, 0, 100);
+        timerTask = runnable.runTaskTimer(this, 0, 100);
     }
 
     @Override
     public void onDisable() {
-        task.cancel();
+        timerTask.cancel();
         getLogger().info("Plugin disabled");
     }
 }
