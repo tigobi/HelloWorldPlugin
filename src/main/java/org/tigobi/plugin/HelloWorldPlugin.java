@@ -11,7 +11,7 @@ public class HelloWorldPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Plugin enabled");
-        MyExecutor myExecutor = new MyExecutor(this);
+        MyTimerCommandExecutor myTimerCommandExecutor = new MyTimerCommandExecutor(this);
         this.getCommand("messageStart").setExecutor(myExecutor);
         var runnable = new BukkitRunnable() {
             @Override
