@@ -9,9 +9,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class MyTimerCommandExecutor implements CommandExecutor {
     private BukkitTask positionTask;
-    private final HelloWorldPlugin plugin;
+    private HelloWorldPlugin plugin;
 
-    public MyTimerCommandExecutor(HelloWorldPlugin plugin) {
+    public void myTimerCommandExecutor(HelloWorldPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -19,7 +19,13 @@ public class MyTimerCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("messageStart")) {
             commandSender.sendMessage("message start");
+            positionTask.runTask
         }
+        if (command.getName().equalsIgnoreCase("MessageEnd")) {
+            commandSender.sendMessage("message end");
+            positionTask.cancel();
+        }
+
         return false;
     }
 
@@ -35,7 +41,6 @@ public class MyTimerCommandExecutor implements CommandExecutor {
                 Bukkit.broadcastMessage("Timer is working");
             }
         };
-        myTask = myRunnable.runTaskTimer(this, 0, 100);
-        myTask = myRunnable.runTaskTimer(this, 0, 100);
+        positionTask = myRunnable.runTaskTimer(plugin, 0, 100);
     }
 }
