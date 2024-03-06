@@ -4,6 +4,9 @@ commands:
   messageStart:
     description: starting task for timer
     usage: /<command>
+    messageEnd:
+      description: ending task for timer
+      usage: /<command>
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20

@@ -19,26 +19,26 @@ public class MyTimerCommandExecutor implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("messageStart")) {
             if (positionTask == null || positionTask.isCancelled()) { // Проверка на запуск ли задачи
                 commandSender.sendMessage("Message start");
-                //тут надо бы запусить выполнене, ага
+                whenStarts();
             } else {
                 commandSender.sendMessage("Timer is already running!");
             }
             return true;
         }
         if (command.getName().equalsIgnoreCase("MessageEnd")) {//обратная комманда
-            commandSender.sendMessage("message end");
+            commandSender.sendMessage("Message end");
             positionTask.cancel();
+            positionTask = null;
         }
 
         return false;
     }
     public void whenStarts() {
-        var myRunnable = new BukkitRunnable() {
+        positionTask = new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.broadcastMessage("Timer is working");//вот это надо запускать
+                Bukkit.broadcastMessage("Timer is working");
             }
-        };
-        positionTask = myRunnable.runTaskTimer(plugin, 0, 100);
+        }.runTaskTimer(plugin, 0, 100); // Запуск таймера
     }
 }
