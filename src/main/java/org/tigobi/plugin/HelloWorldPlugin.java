@@ -7,8 +7,12 @@ public class HelloWorldPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Plugin enabled");
         var myTimerCommandExecutor = new MyTimerCommandExecutor(this);
+        var adSpammer = new AdSpammer(this);
         this.getCommand("messageStart").setExecutor(myTimerCommandExecutor);
         this.getCommand("messageEnd").setExecutor(myTimerCommandExecutor);
+        this.getCommand("adSpammerStart").setExecutor(adSpammer);
+        this.getCommand("adSpammerEnd").setExecutor(adSpammer);
+
     }
 
     @Override

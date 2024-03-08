@@ -11,7 +11,6 @@ import org.bukkit.scheduler.BukkitTask;
 public class MyTimerCommandExecutor implements CommandExecutor {
     private Plugin plugin;
     private BukkitTask positionTask;
-
     public MyTimerCommandExecutor(Plugin plugin) {
         this.plugin = plugin;
     }

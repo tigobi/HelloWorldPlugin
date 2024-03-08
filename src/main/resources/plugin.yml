@@ -1,11 +1,17 @@
 name: HelloWorldPlugin # the plugins name as it should appear in the plugin list /pl
-version: 0.6.0 # the plugin's version
+version: 0.7.0 # the plugin's version
 commands:
   messageStart:
     description: starting task for timer
     usage: /<command>
   messageEnd:
     description: ending task for timer
+    usage: /<command>
+  AdSpammerStart:
+    description: spamming task for timer
+    usage: /<command>
+  AdSpammerEnd:
+    description: stopspamming task for timer
     usage: /<command>
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
