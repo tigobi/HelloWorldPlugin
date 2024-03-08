@@ -7,6 +7,12 @@ commands:
   messageEnd:
     description: ending task for timer
     usage: /<command>
+  AdSpammerStart:
+    description: spamming task for timer
+    usage: /<command>
+  AdSpammerEnd:
+    description: stopspamming task for timer
+    usage: /<command>
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20

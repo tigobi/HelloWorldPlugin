@@ -10,7 +10,8 @@ public class HelloWorldPlugin extends JavaPlugin {
         var adSpammer = new AdSpammer(this);
         this.getCommand("messageStart").setExecutor(myTimerCommandExecutor);
         this.getCommand("messageEnd").setExecutor(myTimerCommandExecutor);
-        this.getCommand("adSpammer").setExecutor(adSpammer);
+        this.getCommand("adSpammerStart").setExecutor(adSpammer);
+        this.getCommand("adSpammerEnd").setExecutor(adSpammer);
 
     }
 
