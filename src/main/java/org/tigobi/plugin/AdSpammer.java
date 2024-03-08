@@ -25,10 +25,9 @@ public class AdSpammer implements CommandExecutor {
             if (positionTask == null || positionTask.isCancelled()) {
                 message = args[0];
                 int a = args.length;
-                commandSender.sendMessage("Длина:" + a);
-                commandSender.sendMessage("If you really want to spam" + message + "write \"yes");
-                whenStarts(message);
-                commandSender.sendMessage("Spam started");
+                commandSender.sendMessage("Длина: " + a);
+
+                whenStarts(argsToString(args));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
@@ -47,12 +46,14 @@ public class AdSpammer implements CommandExecutor {
         return false;
     }
 
-    /*public void confirm(CommandSender commandSender, Command command, String label, String[] args) {
-        if (args[1].equalsIgnoreCase("yes")) {
-            whenStarts(message);
-            commandSender.sendMessage("Spam started");
-        } else commandSender.sendMessage("Spam ended");
-    }*/
+    public String argsToString(String[] args) {
+        String result = "";
+        for (int i = 0; i < args.length; i++) {
+            result += args[i] + " ";
+        }
+        return result;
+    }
+
 
     public void whenStarts(String spamString) {
         positionTask = new BukkitRunnable() {
