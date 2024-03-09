@@ -22,10 +22,10 @@ public class AdSpammer implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         message = "";
+        message = argsToStringFrom2Element(args);
+        messageTasks.put(message, positionTask);
         if (args[0].equalsIgnoreCase("start")) {
-            if (positionTask == null || positionTask.isCancelled()) {
-                message = argsToStringFrom2Element(args);
-                messageTasks.put(message, positionTask);
+            if (messageTasks.get(message) == null || messageTasks.get(message).isCancelled()) {
                 whenStarts(message, messageTasks);
             } else {
                 commandSender.sendMessage("Spam is already running!");
