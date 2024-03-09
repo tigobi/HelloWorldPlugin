@@ -37,6 +37,7 @@ public class AdSpammer implements CommandExecutor {
             commandSender.sendMessage("adSpammer stop");
             messageTasks.get(message).cancel();
             messageTasks.remove(message);
+
             return true;
         }
         return false;
