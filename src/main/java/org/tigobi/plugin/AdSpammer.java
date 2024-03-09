@@ -11,37 +11,37 @@ import org.bukkit.scheduler.BukkitTask;
 public class AdSpammer implements CommandExecutor {
     private Plugin plugin;
     private BukkitTask positionTask;
-    private String message;
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
     }
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("AdSpammerStart")) {
+        if (args[0].equalsIgnoreCase("start")) {
             if (positionTask == null || positionTask.isCancelled()) {
-                message = args[0];
-                whenStarts(argsToString(args));
+                whenStarts(argsToStringFrom2Element(args));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
             return true;
         }
-        if (command.getName().equalsIgnoreCase("AdSpammerEnd")) {
-            commandSender.sendMessage("adSpammer end");
+        if (args[0].equalsIgnoreCase("stop")) {
+            commandSender.sendMessage("adSpammer stop");
             positionTask.cancel();
             positionTask = null;
             return true;
         }
         return false;
     }
-    public String argsToString(String[] args) {
-        String result = "";
-        for (int i = 0; i < args.length; i++) {
-            result += args[i] + " ";
+
+    private String argsToStringFrom2Element(String[] args) {
+        StringBuilder a = new StringBuilder();
+        for (int i = 1; i < args.length; i++) {
+            a.append(args[i] + " ");
         }
-        return result;
+        return a.toString();
     }
-    public void whenStarts(String spamString) {
+
+    private void whenStarts(String spamString) {
         positionTask = new BukkitRunnable() {
             @Override
             public void run() {

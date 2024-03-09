@@ -7,8 +7,7 @@ public class HelloWorldPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Plugin enabled");
         var adSpammer = new AdSpammer(this);
-        this.getCommand("adSpammerStart").setExecutor(adSpammer);
-        this.getCommand("adSpammerEnd").setExecutor(adSpammer);
+        this.getCommand("adSpammer").setExecutor(adSpammer);
     }
     @Override
     public void onDisable() {
