@@ -11,8 +11,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 
 public class AdSpammer implements CommandExecutor {
-    private Plugin plugin;
-    private HashMap<Integer, BukkitTask> messageTasks = new HashMap<>();
+    private final Plugin plugin;
+    private final HashMap<Integer, BukkitTask> messageTasks = new HashMap<>();
+
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
     }
