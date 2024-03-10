@@ -11,8 +11,9 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 
 public class AdSpammer implements CommandExecutor {
-    private Plugin plugin;
-    private HashMap<Integer, BukkitTask> messageTasks = new HashMap<>();
+    private final Plugin plugin;
+    private final HashMap<Integer, BukkitTask> messageTasks = new HashMap<>();
+
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
     }
@@ -23,11 +24,16 @@ public class AdSpammer implements CommandExecutor {
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).isCancelled()) {
+                commandSender.sendMessage("adSpammer start");
                 messageTasks.put(playerId, startTimerTask(message));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
             return true;
+        }
+        if (args[0].equalsIgnoreCase("stopAll")) {
+            stopAll(messageTasks);
+            commandSender.sendMessage("adSpammer stopAll");
         }
         if (args[0].equalsIgnoreCase("stop")) {
             if (messageTasks.get(playerId) != null) {
@@ -40,6 +46,15 @@ public class AdSpammer implements CommandExecutor {
             return true;
         }
         return false;
+    }
+
+    private void stopAll(HashMap<Integer, BukkitTask> map) {
+        var iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            var entry = iterator.next();
+            entry.getValue().cancel();
+            iterator.remove();
+        }
     }
 
     private String argsToStringFrom2Element(String[] args) {
