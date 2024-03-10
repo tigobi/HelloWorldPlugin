@@ -23,17 +23,20 @@ public class AdSpammer implements CommandExecutor {
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).isCancelled()) {
-                messageTasks = whenStarts(message, playerId, messageTasks);
+                messageTasks.put(playerId, timerTasks(message));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
             return true;
         }
         if (args[0].equalsIgnoreCase("stop")) {
-            commandSender.sendMessage("adSpammer stop");
-            messageTasks.get(playerId).cancel();
-            messageTasks.remove(playerId);
-
+            if (messageTasks.get(playerId) != null) {
+                commandSender.sendMessage("adSpammer stop");
+                messageTasks.get(playerId).cancel();
+                messageTasks.remove(playerId);
+            } else {
+                commandSender.sendMessage("You can't stop this");
+            }
             return true;
         }
         return false;
@@ -47,15 +50,13 @@ public class AdSpammer implements CommandExecutor {
         return a.toString();
     }
 
-    private HashMap<Integer, BukkitTask> whenStarts(String spamString, int playerId, HashMap<Integer, BukkitTask> tasks) {
-        BukkitTask positionTask;
-        positionTask = new BukkitRunnable() {
+    private BukkitTask timerTasks(String spamString) {
+        var positionTask = new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.broadcastMessage(spamString);
             }
         }.runTaskTimer(plugin, 0, 100);
-        tasks.put(playerId, positionTask);
-        return tasks;
+        return positionTask;
     }
 }

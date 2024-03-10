@@ -1,5 +1,5 @@
-name: HelloWorldPlugin # the plugins name as it should appear in the plugin list /pl
-version: 0.7.1 # the plugin's version
+name: HelloWorldPlugin
+version: 0.7.1
 commands:
   adSpammer:
     description: Starts or stops message spamming
