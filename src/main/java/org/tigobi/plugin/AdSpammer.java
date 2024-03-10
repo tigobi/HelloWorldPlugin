@@ -8,26 +8,35 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.HashMap;
+
 public class AdSpammer implements CommandExecutor {
     private Plugin plugin;
-    private BukkitTask positionTask;
+    private HashMap<Integer, BukkitTask> messageTasks = new HashMap<>();
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
     }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+        int playerId = commandSender.hashCode();
+        String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
-            if (positionTask == null || positionTask.isCancelled()) {
-                whenStarts(argsToStringFrom2Element(args));
+            if (messageTasks.get(playerId) == null || messageTasks.get(playerId).isCancelled()) {
+                messageTasks.put(playerId, startTimerTask(message));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
             return true;
         }
         if (args[0].equalsIgnoreCase("stop")) {
-            commandSender.sendMessage("adSpammer stop");
-            positionTask.cancel();
-            positionTask = null;
+            if (messageTasks.get(playerId) != null) {
+                commandSender.sendMessage("adSpammer stop");
+                messageTasks.get(playerId).cancel();
+                messageTasks.remove(playerId);
+            } else {
+                commandSender.sendMessage("You don't have tasks running");
+            }
             return true;
         }
         return false;
@@ -41,12 +50,13 @@ public class AdSpammer implements CommandExecutor {
         return a.toString();
     }
 
-    private void whenStarts(String spamString) {
-        positionTask = new BukkitRunnable() {
+    private BukkitTask startTimerTask(String spamString) {
+        var positionTask = new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.broadcastMessage(spamString);
             }
         }.runTaskTimer(plugin, 0, 100);
+        return positionTask;
     }
 }
