@@ -8,7 +8,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AdSpammer implements CommandExecutor {
@@ -18,10 +17,9 @@ public class AdSpammer implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    private int playerId = 0;
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        playerId = commandSender.hashCode();
+        int playerId = commandSender.hashCode();
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).isCancelled()) {
@@ -34,7 +32,7 @@ public class AdSpammer implements CommandExecutor {
         if (args[0].equalsIgnoreCase("stop")) {
             commandSender.sendMessage("adSpammer stop");
             messageTasks.get(playerId).cancel();
-            messageTasks.remove(commandSender.hashCode());
+            messageTasks.remove(playerId);
 
             return true;
         }
