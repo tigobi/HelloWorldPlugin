@@ -23,7 +23,7 @@ public class AdSpammer implements CommandExecutor {
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).isCancelled()) {
-                messageTasks.put(playerId, timerTasks(message));
+                messageTasks.put(playerId, startTimerTask(message));
             } else {
                 commandSender.sendMessage("Spam is already running!");
             }
@@ -35,7 +35,7 @@ public class AdSpammer implements CommandExecutor {
                 messageTasks.get(playerId).cancel();
                 messageTasks.remove(playerId);
             } else {
-                commandSender.sendMessage("You can't stop this");
+                commandSender.sendMessage("You don't have tasks running");
             }
             return true;
         }
@@ -50,7 +50,7 @@ public class AdSpammer implements CommandExecutor {
         return a.toString();
     }
 
-    private BukkitTask timerTasks(String spamString) {
+    private BukkitTask startTimerTask(String spamString) {
         var positionTask = new BukkitRunnable() {
             @Override
             public void run() {
