@@ -39,14 +39,13 @@ public class AdSpammer implements CommandExecutor {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).size() == 0) {
                 commandSender.sendMessage("You don't have tasks running");
             } else if (messageTasks.get(playerId).size() == 1) {
-                commandSender.sendMessage("You have 1 task.");
+                commandSender.sendMessage("You have 1 task");
             } else {
-                commandSender.sendMessage("You have " + messageTasks.get(playerId).size() + " tasks.");
+                commandSender.sendMessage("You have " + messageTasks.get(playerId).size() + " tasks");
             }
             return true;
         }
         if (args[0].equalsIgnoreCase("stop")) {
-
             if (messageTasks.get(playerId) != null) {
                 if (args[1].equalsIgnoreCase("all")) {
                     stopAllArrayTasks(messageTasks.get(playerId));
@@ -54,7 +53,7 @@ public class AdSpammer implements CommandExecutor {
                     return true;
                 }
                 int stopTaskNumber = -1;
-                String invalidTaskNumber = "Invalid task number should be \"all\" from 1 to " + messageTasks.get(playerId).size();
+                String invalidTaskNumber = "Invalid task number should be \"all\" or number from 1 to " + messageTasks.get(playerId).size();
                 try {
                     stopTaskNumber = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
