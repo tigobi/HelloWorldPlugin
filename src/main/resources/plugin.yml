@@ -3,7 +3,7 @@ version: 0.7.1
 commands:
   adSpammer:
     description: Starts or stops message spamming
-    usage: /<command> <start|stop|stopAll> [message]
+    usage: /<command> <start  | stop  | list> [message]
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20
