@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class AdSpammer implements CommandExecutor {
     private final Plugin plugin;
-    private final HashMap<Integer, ArrayList<BukkitTask>> messageTasks = new HashMap<>();
+    private final HashMap<Integer, ArrayList<BukkitRunnable>> messageTasks = new HashMap<>();
 
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
@@ -25,7 +25,7 @@ public class AdSpammer implements CommandExecutor {
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null) {
-                messageTasks.put(playerId, new ArrayList<BukkitTask>());
+                messageTasks.put(playerId, new ArrayList<BukkitRunnable>());
             }
             commandSender.sendMessage("adSpammer start");
             messageTasks.get(playerId).add(startTimerTask(message));
@@ -45,6 +45,7 @@ public class AdSpammer implements CommandExecutor {
             }
             return true;
         }
+
         if (args[0].equalsIgnoreCase("stop")) {
             if (messageTasks.get(playerId) != null) {
                 if (args[1].equalsIgnoreCase("all")) {
@@ -75,7 +76,7 @@ public class AdSpammer implements CommandExecutor {
         return false;
     }
 
-    private void stopAllArrayTasks(ArrayList<BukkitTask> tasks) {
+    private void stopAllArrayTasks(ArrayList<BukkitRunnable> tasks) {
         var arrayIterator = tasks.iterator();
         while (arrayIterator.hasNext()) {
             var arrayEntry = arrayIterator.next();
@@ -100,13 +101,13 @@ public class AdSpammer implements CommandExecutor {
         return a.toString();
     }
 
-    private BukkitTask startTimerTask(String spamString) {
+    private BukkitRunnable startTimerTask(String spamString) {
         var positionTask = new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.broadcastMessage(spamString);
             }
         }.runTaskTimer(plugin, 0, 100);
-        return positionTask;
+        return (BukkitRunnable) positionTask;
     }
 }

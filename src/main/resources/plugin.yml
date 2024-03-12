@@ -1,9 +1,12 @@
 name: HelloWorldPlugin
 version: 0.7.1
 commands:
-  adSpammer:
-    description: Starts or stops message spamming
-    usage: /<command> <start  | stop  | list> [message]
+  AdSpammer:
+    description: Controls the automatic broadcast of messages.
+    usage: |
+      /AdSpammer start <message> - Starts a new task that spams the provided message.
+      /AdSpammer stop <taskID|all> - Stops a specific task by its ID or all tasks if 'all' is specified.
+      /AdSpammer list - Lists all your current spam tasks.
 author: tigobi
 main: org.tigobi.plugin.HelloWorldPlugin
 api-version: 1.20
