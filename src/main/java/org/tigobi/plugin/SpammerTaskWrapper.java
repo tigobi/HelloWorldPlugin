@@ -3,34 +3,23 @@ package org.tigobi.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
-public class SpammerTaskWrapper extends BukkitRunnable {
+public class SpammerTaskWrapper {
     public String message;
-    private final Plugin plugin;
+    public BukkitTask task;
 
-    public SpammerTaskWrapper(Plugin plugin) {
-        this.plugin = plugin;
-    }
 
     public String getMessage() {
         return message;
     }
 
-    public SpammerTaskWrapper(String message) {
-        this.message = message;
-        this.plugin = plugin;
-        var positionTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.broadcastMessage(message);
-            }
-        }.runTaskTimer(plugin, 0, 100);
-
+    public BukkitTask getTask() {
+        return task;
     }
 
-
-    @Override
-    public void run() {
-
+    public SpammerTaskWrapper(String message, BukkitTask task) {
+        this.message = message;
+        this.task = task;
     }
 }
