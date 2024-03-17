@@ -1,14 +1,10 @@
 package org.tigobi.plugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class SpammerTaskWrapper {
-    public String message;
-    public BukkitTask task;
-
+    private final String message;
+    private final BukkitTask task;
 
     public String getMessage() {
         return message;

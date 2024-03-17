@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class AdSpammer implements CommandExecutor {
     private final Plugin plugin;
-    private final HashMap<Integer, ArrayList<BukkitTask>> messageTasks = new HashMap<>();
+    private final HashMap<Integer, ArrayList<SpammerTaskWrapper>> messageTasks = new HashMap<>();
 
     public AdSpammer(Plugin plugin) {
         this.plugin = plugin;
@@ -25,10 +25,10 @@ public class AdSpammer implements CommandExecutor {
         String message = argsToStringFrom2Element(args);
         if (args[0].equalsIgnoreCase("start")) {
             if (messageTasks.get(playerId) == null) {
-                messageTasks.put(playerId, new ArrayList<BukkitTask>());
+                messageTasks.put(playerId, new ArrayList<SpammerTaskWrapper>());
             }
             commandSender.sendMessage("adSpammer start");
-            messageTasks.get(playerId).add(startTimerTask(message));
+            messageTasks.get(playerId).add(new SpammerTaskWrapper(message, startTimerTask(message)));
             return true;
         }
         if (args[0].equalsIgnoreCase("stopAll")) {
@@ -39,9 +39,9 @@ public class AdSpammer implements CommandExecutor {
             if (messageTasks.get(playerId) == null || messageTasks.get(playerId).size() == 0) {
                 commandSender.sendMessage("You don't have tasks running");
             } else if (messageTasks.get(playerId).size() == 1) {
-                commandSender.sendMessage("You have 1 task");
+                commandSender.sendMessage("You have 1 task:\n" + listOfAllArrayTasks(messageTasks.get(playerId)));
             } else {
-                commandSender.sendMessage("You have " + messageTasks.get(playerId).size() + " tasks");
+                commandSender.sendMessage("You have " + messageTasks.get(playerId).size() + " tasks:\n" + listOfAllArrayTasks(messageTasks.get(playerId)));
             }
             return true;
         }
@@ -65,7 +65,7 @@ public class AdSpammer implements CommandExecutor {
                     return false;
                 }
                 commandSender.sendMessage("adSpammer stop");
-                messageTasks.get(playerId).get(stopTaskNumber - 1).cancel();
+                messageTasks.get(playerId).get(stopTaskNumber - 1).getTask().cancel();
                 messageTasks.get(playerId).remove(stopTaskNumber - 1);
             } else {
                 commandSender.sendMessage("You don't have tasks running");
@@ -75,13 +75,22 @@ public class AdSpammer implements CommandExecutor {
         return false;
     }
 
-    private void stopAllArrayTasks(ArrayList<BukkitTask> tasks) {
-        var arrayIterator = tasks.iterator();
+    private void stopAllArrayTasks(ArrayList<SpammerTaskWrapper> taskWrappers) {
+        var arrayIterator = taskWrappers.iterator();
         while (arrayIterator.hasNext()) {
             var arrayEntry = arrayIterator.next();
-            arrayEntry.cancel();
+            arrayEntry.getTask().cancel();
             arrayIterator.remove();
         }
+    }
+
+    private String listOfAllArrayTasks(ArrayList<SpammerTaskWrapper> taskWrappers) {
+        StringBuilder message = new StringBuilder();
+        for (int i = 0; i < taskWrappers.size(); i++) {
+
+            message.append((i + 1) + " - " + taskWrappers.get(i).getMessage() + "\n");
+        }
+        return message.toString();
     }
 
     private void stopAll() {
