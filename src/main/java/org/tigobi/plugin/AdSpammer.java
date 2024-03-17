@@ -1,12 +1,9 @@
 package org.tigobi.plugin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +25,7 @@ public class AdSpammer implements CommandExecutor {
                 messageTasks.put(playerId, new ArrayList<SpammerTaskWrapper>());
             }
             commandSender.sendMessage("adSpammer start");
-            messageTasks.get(playerId).add(new SpammerTaskWrapper(message, startTimerTask(message)));
+            messageTasks.get(playerId).add(new SpammerTaskWrapper(message, plugin));
             return true;
         }
         if (args[0].equalsIgnoreCase("stopAll")) {
@@ -107,15 +104,5 @@ public class AdSpammer implements CommandExecutor {
             a.append(args[i] + " ");
         }
         return a.toString();
-    }
-
-    private BukkitTask startTimerTask(String spamString) {
-        var positionTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.broadcastMessage(spamString);
-            }
-        }.runTaskTimer(plugin, 0, 100);
-        return positionTask;
     }
 }
